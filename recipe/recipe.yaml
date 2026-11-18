@@ -1,0 +1,67 @@
+context:
+  name: hybgensea
+  version: "0.3.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  - url: https://files.pythonhosted.org/packages/source/${{ name[0] }}/${{ name }}/hybgensea-${{ version }}.tar.gz
+    sha256: 7e114d5890e42967078e936c45869fd9dd9d4d0dcf52c012b3258680537d2b85
+  - git: https://github.com/mdealencar/HGS-CVRP.git
+    rev: f60dd6108fcaf9e4516ecb288edaf41bdf6bd809
+    target_directory: HGS-CVRP
+
+build:
+  number: 0
+  skip:
+    - match(python, "<3.10")
+  script:
+    - if: unix
+      then:
+        - export CMAKE_ARGS="${CMAKE_ARGS} -DFETCHCONTENT_SOURCE_DIR_HGSCVRP=${SRC_DIR}/HGS-CVRP"
+    - if: win
+      then:
+        - set "CMAKE_ARGS=%CMAKE_ARGS% -DFETCHCONTENT_SOURCE_DIR_HGSCVRP=%SRC_DIR%\HGS-CVRP"
+    - python -m pip install . -vv --no-deps --no-build-isolation
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+    - ${{ stdlib('c') }}
+    - cmake
+    - ninja
+  host:
+    - python
+    - scikit-build-core
+    - nanobind
+    - pip
+  run:
+    - python
+    - numpy
+
+tests:
+  - python:
+      imports:
+        - hybgensea
+      pip_check: true
+  - requirements:
+      run:
+        - pytest
+    script:
+      - pytest --pyargs hybgensea.tests
+
+about:
+  homepage: https://github.com/mdealencar/HybGenSea
+  repository: https://github.com/mdealencar/HybGenSea
+  summary: Wrapper for the Hybrid Genetic Search algorithm for Capacitated Vehicle Routing Problems (HGS-CVRP)
+  license: MIT
+  license_file:
+    - LICENSE
+    - HGS-CVRP/LICENSE
+
+extra:
+  recipe-maintainers:
+    - mdealencar
+    - simutisernestas

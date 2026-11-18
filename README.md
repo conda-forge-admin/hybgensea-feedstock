@@ -3,11 +3,13 @@ About hybgensea-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/hybgensea-feedstock/blob/main/LICENSE.txt)
 
-Home: https://github.com/mdealencar/PyHygese
+Home: https://github.com/mdealencar/HybGenSea
 
 Package license: MIT
 
 Summary: Wrapper for the Hybrid Genetic Search algorithm for Capacitated Vehicle Routing Problems (HGS-CVRP)
+
+Development: https://github.com/mdealencar/HybGenSea
 
 Current build status
 ====================

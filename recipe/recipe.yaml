@@ -14,7 +14,7 @@ source:
     target_directory: HGS-CVRP
 
 build:
-  number: 0
+  number: 1
   skip:
     - match(python, "<3.10")
   script:
